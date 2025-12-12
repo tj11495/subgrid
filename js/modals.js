@@ -246,3 +246,33 @@ function selectPresetFromBrowser(idx) {
     openModalWithPreset(idx);
   }, 300);
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+  if (backdrop) backdrop.addEventListener("click", closeModal);
+  if (panel) {
+    panel.addEventListener("click", closeModal);
+    if (modalInner) modalInner.addEventListener("click", function(e) { e.stopPropagation(); });
+  }
+
+  if (settingsBackdrop) settingsBackdrop.addEventListener("click", closeSettings);
+  if (settingsPanel) {
+    settingsPanel.addEventListener("click", closeSettings);
+    if (settingsInner) settingsInner.addEventListener("click", function(e) { e.stopPropagation(); });
+  }
+
+  if (presetsBackdrop) presetsBackdrop.addEventListener("click", closePresetsBrowser);
+  if (presetsPanel) {
+    presetsPanel.addEventListener("click", closePresetsBrowser);
+    if (presetsInner) presetsInner.addEventListener("click", function(e) { e.stopPropagation(); });
+  }
+
+  const bankBackdrop = document.getElementById("bank-import-backdrop");
+  const bankPanel = document.getElementById("bank-import-panel");
+  const bankInner = bankPanel ? bankPanel.querySelector("div") : null;
+
+  if (bankBackdrop) bankBackdrop.addEventListener("click", closeBankImport);
+  if (bankPanel) {
+    bankPanel.addEventListener("click", closeBankImport);
+    if (bankInner) bankInner.addEventListener("click", function(e) { e.stopPropagation(); });
+  }
+});
