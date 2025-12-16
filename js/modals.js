@@ -33,6 +33,7 @@ function hideModal() {
 function openModal() {
   document.getElementById("sub-form").reset();
   document.getElementById("entry-id").value = "";
+  document.getElementById("currency").value = selectedCurrency;
   updateFavicon("");
   pickColor(randColor().id);
 
@@ -52,6 +53,7 @@ function openModalWithPreset(presetIdx) {
 
   document.getElementById("sub-form").reset();
   document.getElementById("entry-id").value = "";
+  document.getElementById("currency").value = selectedCurrency;
   document.getElementById("name").value = preset.name;
   document.getElementById("price").value = preset.price;
   document.getElementById("cycle").value = preset.cycle;
