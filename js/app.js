@@ -1,6 +1,7 @@
 let subs = [];
 let step = 1;
 let selectedCurrency = "USD";
+let currentView = "treemap";
 
 window.currencies = {
   USD: { symbol: "$", name: "US Dollar", rate: 1 },
@@ -191,7 +192,7 @@ function goToStep(stepNum) {
     progressBar.className = barClasses + " w-1/3";
   } else if (stepNum === 2) {
     progressBar.className = barClasses + " w-2/3";
-    renderGrid();
+    setView(currentView);
   } else {
     progressBar.className = barClasses + " w-full";
     renderStats();
@@ -200,6 +201,42 @@ function goToStep(stepNum) {
   indicator.innerText = "Step " + stepNum + " of 3";
   step = stepNum;
   window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function setView(view) {
+  currentView = view;
+
+  // Update button styles
+  const views = ["treemap", "beeswarm", "spiral"];
+  const activeClass = "bg-slate-900 text-white";
+  const inactiveClass = "bg-white text-slate-600";
+
+  views.forEach(v => {
+    const btn = document.getElementById("view-" + v);
+    if (btn) {
+      btn.classList.remove(...activeClass.split(" "), ...inactiveClass.split(" "));
+      if (v === view) {
+        btn.classList.add(...activeClass.split(" "));
+      } else {
+        btn.classList.add(...inactiveClass.split(" "));
+      }
+    }
+  });
+
+  // Toggle containers
+  const treemapContainer = document.getElementById("bento-grid");
+  const beeswarmContainer = document.getElementById("beeswarm-container");
+
+  treemapContainer.classList.add("hidden");
+  beeswarmContainer.classList.add("hidden");
+
+  if (view === "treemap") {
+    treemapContainer.classList.remove("hidden");
+    renderGrid();
+  } else if (view === "beeswarm") {
+    beeswarmContainer.classList.remove("hidden");
+    renderBeeswarm();
+  }  
 }
 
 function renderList() {
@@ -474,7 +511,8 @@ function handleFormSubmit(evt) {
     currency: document.getElementById("sub-currency").value,
     cycle: document.getElementById("cycle").value,
     url: document.getElementById("url").value,
-    color: document.getElementById("selected-color").value || randColor().id
+    color: document.getElementById("selected-color").value || randColor().id,
+    date: document.getElementById("date").value || ""
   };
 
   if (existingId) {

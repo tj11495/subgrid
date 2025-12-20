@@ -79,3 +79,27 @@ input[type="number"]::-webkit-outer-spin-button {
   justify-content: center;
   align-items: center;
 }
+
+/* beeswarm plot */
+.beeswarm-dot {
+  transition: transform 0.2s ease, z-index 0s;
+  will-change: transform;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.beeswarm-dot:hover,
+.beeswarm-dot.active {
+  z-index: 100;
+}
+
+/* Show tooltip on tap for mobile */
+.beeswarm-dot.active .beeswarm-tooltip {
+  opacity: 1;
+}
+
+/* Prevent dots from being too small on mobile */
+@media (max-width: 500px) {
+  .beeswarm-dot > div:first-child {
+    border-width: 1.5px;
+  }
+}
