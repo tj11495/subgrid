@@ -372,10 +372,21 @@ function getVexlyImportUrl() {
 
 function renderPresets() {
   const grid = document.getElementById("presets-grid");
-  if (!grid) return;
+  if (!grid) {
+    console.error("presets-grid element not found");
+    return;
+  }
+
+  if (!window.presets || !Array.isArray(window.presets)) {
+    console.error("window.presets is not defined or not an array", window.presets);
+    return;
+  }
+
+  console.log("Rendering presets, total count:", window.presets.length);
 
   // full list is overwhelming, just show common ones here
   const popular = window.presets.filter(p => p.popular);
+  console.log("Popular presets count:", popular.length);
 
   let html = "";
 
