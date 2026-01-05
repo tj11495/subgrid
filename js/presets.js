@@ -13,7 +13,7 @@ const presets = [
   { name: "Apple TV+", domain: "tv.apple.com", price: 9.99, cycle: "Monthly", color: "slate", category: "Streaming" },
   { name: "Paramount+", domain: "paramountplus.com", price: 7.99, cycle: "Monthly", color: "blue", category: "Streaming" },
   { name: "Peacock", domain: "peacocktv.com", price: 7.99, cycle: "Monthly", color: "purple", category: "Streaming" },
-  { name: "Amazon Prime", domain: "amazon.com", price: 14.99, cycle: "Monthly", color: "orange", category: "Streaming", popular: true },
+  { name: "Amazon Prime", domain: "amazon.com", price: 14.99, cycle: "Monthly", color: "orange", category: "Streaming" },
   { name: "Crunchyroll", domain: "crunchyroll.com", price: 7.99, cycle: "Monthly", color: "orange", category: "Streaming" },
 
   // music
