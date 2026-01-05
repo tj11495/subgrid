@@ -36,6 +36,7 @@ function openModal() {
   document.getElementById("sub-currency").value = selectedCurrency;
   updateFavicon("");
   pickColor(randColor().id);
+  resetLogoUpload();
 
   document.getElementById("modal-title").innerText = "Add Subscription";
   document.querySelector("#sub-form button[type='submit']").innerText = "Save Item";
@@ -61,6 +62,7 @@ function openModalWithPreset(presetIdx) {
 
   updateFavicon(preset.domain);
   pickColor(preset.color);
+  resetLogoUpload();
 
   document.getElementById("modal-title").innerText = "Add Subscription";
   document.querySelector("#sub-form button[type='submit']").innerText = "Save Item";

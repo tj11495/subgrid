@@ -167,15 +167,20 @@ function toMonthly(sub) {
 }
 
 function iconHtml(sub, className) {
-  if (!sub.url) {
-    return '<span class="iconify ' + className + ' text-slate-400 shrink-0" data-icon="ph:cube-bold"></span>';
+  // Priority 1: Custom uploaded logo
+  if (sub.customLogo) {
+    return '<img src="' + sub.customLogo + '" class="' + className + ' object-contain rounded-lg shrink-0">';
   }
 
-  const domain = sub.url.replace(/^(https?:\/\/)?(www\.)?/, "").split("/")[0];
+  // Priority 2: URL-based logo
+  if (sub.url) {
+    const domain = sub.url.replace(/^(https?:\/\/)?(www\.)?/, "").split("/")[0];
+    const logoUrl = "https://img.logo.dev/" + domain + "?token=pk_KuI_oR-IQ1-fqpAfz3FPEw&size=100&retina=true&format=png";
+    return '<img src="' + logoUrl + '" class="' + className + ' object-contain rounded-lg shrink-0" crossorigin="anonymous">';
+  }
 
-  // logo.dev is pretty good at finding logos, free tier is enough for this
-  const logoUrl = "https://img.logo.dev/" + domain + "?token=pk_KuI_oR-IQ1-fqpAfz3FPEw&size=100&retina=true&format=png";
-  return '<img src="' + logoUrl + '" class="' + className + ' object-contain rounded-lg shrink-0" crossorigin="anonymous">';
+  // Fallback: Default icon
+  return '<span class="iconify ' + className + ' text-slate-400 shrink-0" data-icon="ph:cube-bold"></span>';
 }
 
 function goToStep(stepNum) {
@@ -373,6 +378,16 @@ function renderPresets() {
   const popular = presets.filter(p => p.popular);
 
   let html = "";
+
+  // Add custom subscription card as first item
+  html += '<button onclick="openModal()" ';
+  html += 'class="flex flex-col items-center gap-1.5 rounded-xl border-2 border-dashed border-slate-200 bg-gradient-to-br from-indigo-50 to-purple-50 p-2.5 shadow-sm transition-all hover:border-indigo-300 hover:shadow-md active:scale-95 sm:p-3">';
+  html += '<div class="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-100 sm:h-10 sm:w-10">';
+  html += '<span class="iconify h-5 w-5 text-indigo-600 sm:h-6 sm:w-6" data-icon="ph:plus-bold"></span>';
+  html += '</div>';
+  html += '<span class="text-[10px] font-bold text-indigo-600 truncate w-full text-center sm:text-xs">Custom</span>';
+  html += '</button>';
+
   for (let i = 0; i < popular.length; i++) {
     const preset = popular[i];
     const presetIndex = presets.indexOf(preset);
@@ -412,6 +427,16 @@ function editSub(subId) {
   updateFavicon(sub.url || "");
   pickColor(sub.color || randColor().id);
 
+  // Handle custom logo
+  if (sub.customLogo) {
+    document.getElementById("custom-logo").value = sub.customLogo;
+    const preview = document.getElementById("custom-logo-preview");
+    preview.innerHTML = '<img src="' + sub.customLogo + '" class="w-full h-full object-cover rounded-lg">';
+    document.getElementById("logo-upload-text").innerText = "Change logo";
+  } else {
+    resetLogoUpload();
+  }
+
   document.getElementById("modal-title").innerText = "Edit Subscription";
   document.querySelector("#sub-form button[type='submit']").innerText = "Save Changes";
 
@@ -441,6 +466,46 @@ function pickColor(colorId) {
       opt.classList.remove("ring-2", "ring-indigo-500", "ring-offset-2");
     }
   }
+}
+
+// Handle custom logo upload
+function handleLogoUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  // Check if file is an image
+  if (!file.type.startsWith('image/')) {
+    alert('Please upload an image file');
+    return;
+  }
+
+  // Check file size (limit to 2MB)
+  if (file.size > 2 * 1024 * 1024) {
+    alert('Image size should be less than 2MB');
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const base64Image = e.target.result;
+    document.getElementById("custom-logo").value = base64Image;
+
+    const preview = document.getElementById("custom-logo-preview");
+    preview.innerHTML = '<img src="' + base64Image + '" class="w-full h-full object-cover rounded-lg">';
+
+    const uploadText = document.getElementById("logo-upload-text");
+    uploadText.innerText = file.name;
+  };
+  reader.readAsDataURL(file);
+}
+
+function resetLogoUpload() {
+  document.getElementById("custom-logo").value = "";
+  document.getElementById("logo-file-input").value = "";
+  document.getElementById("logo-upload-text").innerText = "Upload logo image";
+
+  const preview = document.getElementById("custom-logo-preview");
+  preview.innerHTML = '<span class="iconify h-5 w-5 text-slate-300" data-icon="ph:image-bold"></span>';
 }
 
 // debounce the favicon preview so we're not hammering the api on every keystroke
@@ -508,6 +573,7 @@ function handleFormSubmit(evt) {
   evt.preventDefault();
 
   const existingId = document.getElementById("entry-id").value;
+  const customLogo = document.getElementById("custom-logo").value;
 
   const subData = {
     id: existingId || Date.now().toString(),
@@ -519,6 +585,10 @@ function handleFormSubmit(evt) {
     color: document.getElementById("selected-color").value || randColor().id,
     date: document.getElementById("date").value || ""
   };
+
+  if (customLogo) {
+    subData.customLogo = customLogo;
+  }
 
   if (existingId) {
     const index = subs.findIndex(s => s.id === existingId);
