@@ -101,7 +101,7 @@ function renderCalendar() {
   html += '</div>';
   html += '</div>';
 
-  html += '<table class="flex h-full w-full items-center justify-center border-collapse">';
+  html += '<table class="w-full border-collapse">';
   html += '<thead><tr class="flex">';
   for (let i = 0; i < 7; i++) {
     html += '<th class="flex h-9 w-9 items-center justify-center text-xs font-normal text-slate-500">' + dayNames[i] + '</th>';
