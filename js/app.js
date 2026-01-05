@@ -438,14 +438,48 @@ function editSub(subId) {
   updateFavicon(sub.url || "");
   pickColor(sub.color || randColor().id);
 
-  // Handle custom logo
   if (sub.customLogo) {
     document.getElementById("custom-logo").value = sub.customLogo;
-    const preview = document.getElementById("custom-logo-preview");
-    preview.innerHTML = '<img src="' + sub.customLogo + '" class="w-full h-full object-cover rounded-lg">';
-    document.getElementById("logo-upload-text").innerText = "Change logo";
+    const faviconPreview = document.getElementById("favicon-preview");
+    faviconPreview.innerHTML = '<img src="' + sub.customLogo + '" class="w-full h-full object-cover">';
   } else {
     resetLogoUpload();
+  }
+
+  if (sub.schedule && sub.schedule.enabled) {
+    const scheduleToggle = document.getElementById("schedule-toggle");
+    const scheduleFields = document.getElementById("schedule-fields");
+    const scheduleToggleSpan = scheduleToggle.querySelector("span");
+
+    scheduleToggle.setAttribute("aria-checked", "true");
+    scheduleToggle.classList.remove("bg-slate-300");
+    scheduleToggle.classList.add("bg-indigo-600");
+    scheduleToggleSpan.classList.remove("translate-x-0");
+    scheduleToggleSpan.classList.add("translate-x-5");
+    scheduleFields.classList.remove("hidden");
+
+    document.getElementById("subscription-status").value = sub.schedule.status || "Active";
+    document.getElementById("start-date").value = sub.schedule.startDate || "";
+    document.getElementById("next-billing-date").value = sub.schedule.nextBillingDate || "";
+
+    const recurringToggle = document.getElementById("recurring-toggle");
+    const recurringToggleSpan = recurringToggle.querySelector("span");
+
+    if (sub.schedule.recurring) {
+      recurringToggle.setAttribute("aria-checked", "true");
+      recurringToggle.classList.remove("bg-slate-300");
+      recurringToggle.classList.add("bg-indigo-600");
+      recurringToggleSpan.classList.remove("translate-x-0");
+      recurringToggleSpan.classList.add("translate-x-5");
+    } else {
+      recurringToggle.setAttribute("aria-checked", "false");
+      recurringToggle.classList.remove("bg-indigo-600");
+      recurringToggle.classList.add("bg-slate-300");
+      recurringToggleSpan.classList.remove("translate-x-5");
+      recurringToggleSpan.classList.add("translate-x-0");
+    }
+  } else {
+    resetScheduleFields();
   }
 
   document.getElementById("modal-title").innerText = "Edit Subscription";
@@ -577,6 +611,49 @@ function initFormCurrencySelector() {
   dropdown.value = selectedCurrency;
 }
 
+function toggleSchedule() {
+  const toggle = document.getElementById("schedule-toggle");
+  const fields = document.getElementById("schedule-fields");
+  const toggleSpan = toggle.querySelector("span");
+  const isChecked = toggle.getAttribute("aria-checked") === "true";
+
+  if (isChecked) {
+    toggle.setAttribute("aria-checked", "false");
+    toggle.classList.remove("bg-indigo-600");
+    toggle.classList.add("bg-slate-300");
+    toggleSpan.classList.remove("translate-x-5");
+    toggleSpan.classList.add("translate-x-0");
+    fields.classList.add("hidden");
+  } else {
+    toggle.setAttribute("aria-checked", "true");
+    toggle.classList.remove("bg-slate-300");
+    toggle.classList.add("bg-indigo-600");
+    toggleSpan.classList.remove("translate-x-0");
+    toggleSpan.classList.add("translate-x-5");
+    fields.classList.remove("hidden");
+  }
+}
+
+function toggleRecurring() {
+  const toggle = document.getElementById("recurring-toggle");
+  const toggleSpan = toggle.querySelector("span");
+  const isChecked = toggle.getAttribute("aria-checked") === "true";
+
+  if (isChecked) {
+    toggle.setAttribute("aria-checked", "false");
+    toggle.classList.remove("bg-indigo-600");
+    toggle.classList.add("bg-slate-300");
+    toggleSpan.classList.remove("translate-x-5");
+    toggleSpan.classList.add("translate-x-0");
+  } else {
+    toggle.setAttribute("aria-checked", "true");
+    toggle.classList.remove("bg-slate-300");
+    toggle.classList.add("bg-indigo-600");
+    toggleSpan.classList.remove("translate-x-0");
+    toggleSpan.classList.add("translate-x-5");
+  }
+}
+
 function handleFormSubmit(evt) {
   evt.preventDefault();
 
@@ -596,6 +673,19 @@ function handleFormSubmit(evt) {
 
   if (customLogo) {
     subData.customLogo = customLogo;
+  }
+
+  const scheduleToggle = document.getElementById("schedule-toggle");
+  const scheduleEnabled = scheduleToggle.getAttribute("aria-checked") === "true";
+
+  if (scheduleEnabled) {
+    subData.schedule = {
+      enabled: true,
+      status: document.getElementById("subscription-status").value,
+      startDate: document.getElementById("start-date").value,
+      nextBillingDate: document.getElementById("next-billing-date").value,
+      recurring: document.getElementById("recurring-toggle").getAttribute("aria-checked") === "true"
+    };
   }
 
   if (existingId) {

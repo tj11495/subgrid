@@ -37,11 +37,37 @@ function openModal() {
   updateFavicon("");
   pickColor(randColor().id);
   resetLogoUpload();
+  resetScheduleFields();
 
   document.getElementById("modal-title").innerText = "Add Subscription";
   document.querySelector("#sub-form button[type='submit']").innerText = "Save Item";
 
   showModal();
+}
+
+function resetScheduleFields() {
+  const scheduleToggle = document.getElementById("schedule-toggle");
+  const scheduleFields = document.getElementById("schedule-fields");
+  const scheduleToggleSpan = scheduleToggle.querySelector("span");
+  const recurringToggle = document.getElementById("recurring-toggle");
+  const recurringToggleSpan = recurringToggle.querySelector("span");
+
+  scheduleToggle.setAttribute("aria-checked", "false");
+  scheduleToggle.classList.remove("bg-indigo-600");
+  scheduleToggle.classList.add("bg-slate-300");
+  scheduleToggleSpan.classList.remove("translate-x-5");
+  scheduleToggleSpan.classList.add("translate-x-0");
+  scheduleFields.classList.add("hidden");
+
+  recurringToggle.setAttribute("aria-checked", "false");
+  recurringToggle.classList.remove("bg-indigo-600");
+  recurringToggle.classList.add("bg-slate-300");
+  recurringToggleSpan.classList.remove("translate-x-5");
+  recurringToggleSpan.classList.add("translate-x-0");
+
+  document.getElementById("subscription-status").value = "Active";
+  document.getElementById("start-date").value = "";
+  document.getElementById("next-billing-date").value = "";
 }
 
 function closeModal() {
@@ -63,6 +89,7 @@ function openModalWithPreset(presetIdx) {
   updateFavicon(preset.domain);
   pickColor(preset.color);
   resetLogoUpload();
+  resetScheduleFields();
 
   document.getElementById("modal-title").innerText = "Add Subscription";
   document.querySelector("#sub-form button[type='submit']").innerText = "Save Item";

@@ -551,6 +551,82 @@
             <input type="hidden" id="selected-color" value="" />
           </div>
 
+          <div class="border-t border-slate-100 pt-5">
+            <div class="mb-4 flex items-center justify-between">
+              <div class="flex-1">
+                <label for="schedule-toggle" class="cursor-pointer text-sm font-semibold text-slate-900">Schedule</label>
+                <p class="text-xs text-slate-500">Track billing dates and subscription status</p>
+              </div>
+              <button
+                type="button"
+                role="switch"
+                id="schedule-toggle"
+                onclick="toggleSchedule()"
+                aria-checked="false"
+                class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent bg-slate-300 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              >
+                <span class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-lg ring-0 transition-transform translate-x-0"></span>
+              </button>
+            </div>
+
+            <div id="schedule-fields" class="hidden space-y-4">
+              <div>
+                <label class="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-500">Status</label>
+                <div class="relative">
+                  <select
+                    id="subscription-status"
+                    class="block w-full appearance-none rounded-xl border border-slate-200 bg-slate-50 p-3 text-base font-semibold text-slate-900 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                  >
+                    <option value="Active">Active</option>
+                    <option value="Trial">Trial</option>
+                    <option value="Paused">Paused</option>
+                    <option value="Cancelled">Cancelled</option>
+                  </select>
+                  <span
+                    class="iconify pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
+                    data-icon="ph:caret-down-bold"
+                  ></span>
+                </div>
+              </div>
+
+              <div class="grid gap-4 md:grid-cols-2">
+                <div>
+                  <label class="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-500">Start Date *</label>
+                  <input
+                    type="date"
+                    id="start-date"
+                    class="block w-full appearance-none rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-900 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                  />
+                </div>
+                <div>
+                  <label class="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-500">Next Billing Date *</label>
+                  <input
+                    type="date"
+                    id="next-billing-date"
+                    class="block w-full appearance-none rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-900 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                  />
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between gap-4 rounded-xl bg-slate-50 p-4">
+                <div class="flex-1">
+                  <label for="recurring-toggle" class="cursor-pointer text-sm font-semibold text-slate-900">Recurring Subscription</label>
+                  <p class="text-xs text-slate-500">Automatically renews each billing cycle</p>
+                </div>
+                <button
+                  type="button"
+                  role="switch"
+                  id="recurring-toggle"
+                  onclick="toggleRecurring()"
+                  aria-checked="false"
+                  class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent bg-slate-300 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                >
+                  <span class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-lg ring-0 transition-transform translate-x-0"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+
           <button
             type="submit"
             class="w-full rounded-xl bg-slate-900 py-4 font-bold text-white shadow-lg shadow-slate-900/20 transition-all hover:bg-slate-800 active:scale-95"
