@@ -502,7 +502,7 @@ function handleLogoUpload(event) {
     document.getElementById("custom-logo").value = base64Image;
 
     const preview = document.getElementById("custom-logo-preview");
-    preview.innerHTML = '<img src="' + base64Image + '" class="w-full h-full object-cover rounded-lg">';
+    preview.innerHTML = '<img src="' + base64Image + '" class="w-full h-full object-cover">';
 
     const uploadText = document.getElementById("logo-upload-text");
     uploadText.innerText = file.name;
@@ -513,10 +513,10 @@ function handleLogoUpload(event) {
 function resetLogoUpload() {
   document.getElementById("custom-logo").value = "";
   document.getElementById("logo-file-input").value = "";
-  document.getElementById("logo-upload-text").innerText = "Upload logo image";
+  document.getElementById("logo-upload-text").innerText = "Upload logo";
 
   const preview = document.getElementById("custom-logo-preview");
-  preview.innerHTML = '<span class="iconify h-5 w-5 text-slate-300" data-icon="ph:image-bold"></span>';
+  preview.innerHTML = '<span class="iconify h-4 w-4 text-slate-300 transition-colors group-hover:text-indigo-400" data-icon="ph:image-bold"></span>';
 }
 
 // debounce the favicon preview so we're not hammering the api on every keystroke
