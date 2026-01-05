@@ -480,36 +480,6 @@ function pickColor(colorId) {
 }
 
 // Handle custom logo upload
-function handleLogoUpload(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-
-  // Check if file is an image
-  if (!file.type.startsWith('image/')) {
-    alert('Please upload an image file');
-    return;
-  }
-
-  // Check file size (limit to 2MB)
-  if (file.size > 2 * 1024 * 1024) {
-    alert('Image size should be less than 2MB');
-    return;
-  }
-
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    const base64Image = e.target.result;
-    document.getElementById("custom-logo").value = base64Image;
-
-    const preview = document.getElementById("custom-logo-preview");
-    preview.innerHTML = '<img src="' + base64Image + '" class="w-full h-full object-cover">';
-
-    const uploadText = document.getElementById("logo-upload-text");
-    uploadText.innerText = file.name;
-  };
-  reader.readAsDataURL(file);
-}
-
 function handleFaviconUpload(event) {
   const file = event.target.files[0];
   if (!file) return;
@@ -531,20 +501,12 @@ function handleFaviconUpload(event) {
 
     const preview = document.getElementById("favicon-preview");
     preview.innerHTML = '<img src="' + base64Image + '" class="w-full h-full object-cover">';
-
-    const uploadText = document.getElementById("logo-upload-text");
-    uploadText.innerText = file.name;
   };
   reader.readAsDataURL(file);
 }
 
 function resetLogoUpload() {
   document.getElementById("custom-logo").value = "";
-  document.getElementById("logo-file-input").value = "";
-  document.getElementById("logo-upload-text").innerText = "Upload logo";
-
-  const customPreview = document.getElementById("custom-logo-preview");
-  customPreview.innerHTML = '<span class="iconify h-4 w-4 text-slate-300 transition-colors group-hover:text-indigo-400" data-icon="ph:image-bold"></span>';
 
   const faviconPreview = document.getElementById("favicon-preview");
   faviconPreview.innerHTML = '<span class="iconify h-5 w-5 text-slate-300 transition-colors group-hover:text-indigo-400" data-icon="ph:globe-simple"></span>';
