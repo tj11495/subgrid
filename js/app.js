@@ -510,13 +510,44 @@ function handleLogoUpload(event) {
   reader.readAsDataURL(file);
 }
 
+function handleFaviconUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  if (!file.type.startsWith('image/')) {
+    alert('Please upload an image file');
+    return;
+  }
+
+  if (file.size > 2 * 1024 * 1024) {
+    alert('Image size should be less than 2MB');
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const base64Image = e.target.result;
+    document.getElementById("custom-logo").value = base64Image;
+
+    const preview = document.getElementById("favicon-preview");
+    preview.innerHTML = '<img src="' + base64Image + '" class="w-full h-full object-cover">';
+
+    const uploadText = document.getElementById("logo-upload-text");
+    uploadText.innerText = file.name;
+  };
+  reader.readAsDataURL(file);
+}
+
 function resetLogoUpload() {
   document.getElementById("custom-logo").value = "";
   document.getElementById("logo-file-input").value = "";
   document.getElementById("logo-upload-text").innerText = "Upload logo";
 
-  const preview = document.getElementById("custom-logo-preview");
-  preview.innerHTML = '<span class="iconify h-4 w-4 text-slate-300 transition-colors group-hover:text-indigo-400" data-icon="ph:image-bold"></span>';
+  const customPreview = document.getElementById("custom-logo-preview");
+  customPreview.innerHTML = '<span class="iconify h-4 w-4 text-slate-300 transition-colors group-hover:text-indigo-400" data-icon="ph:image-bold"></span>';
+
+  const faviconPreview = document.getElementById("favicon-preview");
+  faviconPreview.innerHTML = '<span class="iconify h-5 w-5 text-slate-300 transition-colors group-hover:text-indigo-400" data-icon="ph:globe-simple"></span>';
 }
 
 // debounce the favicon preview so we're not hammering the api on every keystroke
@@ -526,7 +557,12 @@ function updateFavicon(urlInput) {
   clearTimeout(faviconDebounce);
 
   faviconDebounce = setTimeout(function() {
+    const customLogo = document.getElementById("custom-logo").value;
     const preview = document.getElementById("favicon-preview");
+
+    if (customLogo) {
+      return;
+    }
 
     if (!urlInput) {
       preview.innerHTML = '<span class="iconify h-5 w-5 text-slate-300 transition-colors group-hover:text-indigo-400" data-icon="ph:globe-simple"></span>';
@@ -535,7 +571,6 @@ function updateFavicon(urlInput) {
 
     const domain = urlInput.replace(/^(https?:\/\/)?(www\.)?/, "").split("/")[0];
 
-    // only fetch if domain looks legit (at least has a tld)
     if (domain.length > 3) {
       const logoUrl = "https://img.logo.dev/" + domain + "?token=pk_KuI_oR-IQ1-fqpAfz3FPEw&size=100&retina=true&format=png";
       preview.innerHTML = '<img src="' + logoUrl + '" class="w-full h-full object-cover" crossorigin="anonymous">';
