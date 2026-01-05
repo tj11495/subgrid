@@ -104,7 +104,7 @@ function renderCalendar() {
   html += '<table class="w-full border-collapse">';
   html += '<thead><tr class="flex">';
   for (let i = 0; i < 7; i++) {
-    html += '<th class="w-9 text-center text-xs font-normal text-slate-500">' + dayNames[i] + '</th>';
+    html += '<th class="flex h-9 w-9 items-center justify-center text-xs font-normal text-slate-500">' + dayNames[i] + '</th>';
   }
   html += '</tr></thead>';
   html += '<tbody>';
@@ -118,7 +118,7 @@ function renderCalendar() {
     for (let day = 0; day < 7; day++) {
       const cellIndex = week * 7 + day;
 
-      html += '<td class="w-9 text-center text-sm p-0">';
+      html += '<td class="flex h-9 w-9 items-center justify-center p-0">';
 
       if (cellIndex < firstDayOfWeek) {
         const prevDay = prevLastDate - firstDayOfWeek + cellIndex + 1;
