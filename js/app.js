@@ -529,7 +529,7 @@ function updateFavicon(urlInput) {
     const preview = document.getElementById("favicon-preview");
 
     if (!urlInput) {
-      preview.innerHTML = '<span class="iconify text-slate-300 w-5 h-5" data-icon="ph:globe-simple"></span>';
+      preview.innerHTML = '<span class="iconify h-5 w-5 text-slate-300 transition-colors group-hover:text-indigo-400" data-icon="ph:globe-simple"></span>';
       return;
     }
 

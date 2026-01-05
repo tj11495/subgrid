@@ -492,15 +492,26 @@
                 oninput="updateFavicon(this.value)"
                 class="block w-full flex-1 rounded-xl border border-slate-200 bg-slate-50 p-3 text-base font-semibold text-slate-900 placeholder:text-slate-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
               />
-              <div
-                id="favicon-preview"
-                class="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-slate-200 bg-slate-100"
+              <label
+                class="group relative flex h-12 w-12 shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-slate-200 bg-slate-100 transition-all hover:border-indigo-300 hover:bg-indigo-50"
+                title="Click to upload logo"
               >
-                <span
-                  class="iconify h-5 w-5 text-slate-300"
-                  data-icon="ph:globe-simple"
-                ></span>
-              </div>
+                <div id="favicon-preview" class="flex h-full w-full items-center justify-center">
+                  <span
+                    class="iconify h-5 w-5 text-slate-300 transition-colors group-hover:text-indigo-400"
+                    data-icon="ph:globe-simple"
+                  ></span>
+                </div>
+                <div class="pointer-events-none absolute inset-0 flex items-center justify-center bg-indigo-500/90 opacity-0 transition-opacity group-hover:opacity-100">
+                  <span class="iconify h-5 w-5 text-white" data-icon="ph:upload-simple-bold"></span>
+                </div>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onchange="handleLogoUpload(event)"
+                  class="hidden"
+                />
+              </label>
             </div>
           </div>
 
