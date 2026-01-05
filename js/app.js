@@ -462,6 +462,24 @@ function editSub(subId) {
     document.getElementById("start-date").value = sub.schedule.startDate || "";
     document.getElementById("next-billing-date").value = sub.schedule.nextBillingDate || "";
 
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    if (sub.schedule.startDate) {
+      const startDate = new Date(sub.schedule.startDate);
+      const startDateDisplay = document.getElementById("start-date-display");
+      startDateDisplay.innerText = monthNames[startDate.getMonth()] + " " + startDate.getDate() + ", " + startDate.getFullYear();
+      startDateDisplay.classList.remove("text-slate-400");
+      startDateDisplay.classList.add("text-slate-900");
+    }
+
+    if (sub.schedule.nextBillingDate) {
+      const nextBillingDate = new Date(sub.schedule.nextBillingDate);
+      const nextBillingDateDisplay = document.getElementById("next-billing-date-display");
+      nextBillingDateDisplay.innerText = monthNames[nextBillingDate.getMonth()] + " " + nextBillingDate.getDate() + ", " + nextBillingDate.getFullYear();
+      nextBillingDateDisplay.classList.remove("text-slate-400");
+      nextBillingDateDisplay.classList.add("text-slate-900");
+    }
+
     const recurringToggle = document.getElementById("recurring-toggle");
     const recurringToggleSpan = recurringToggle.querySelector("span");
 

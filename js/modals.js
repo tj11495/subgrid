@@ -70,6 +70,19 @@ function resetScheduleFields() {
   document.getElementById("next-billing-date").value = "";
   document.getElementById("custom-duration-value").value = "";
   document.getElementById("custom-duration-unit").value = "days";
+
+  const startDateDisplay = document.getElementById("start-date-display");
+  const nextBillingDateDisplay = document.getElementById("next-billing-date-display");
+  if (startDateDisplay) {
+    startDateDisplay.innerText = "Select date";
+    startDateDisplay.classList.remove("text-slate-900");
+    startDateDisplay.classList.add("text-slate-400");
+  }
+  if (nextBillingDateDisplay) {
+    nextBillingDateDisplay.innerText = "Select date";
+    nextBillingDateDisplay.classList.remove("text-slate-900");
+    nextBillingDateDisplay.classList.add("text-slate-400");
+  }
 }
 
 function closeModal() {

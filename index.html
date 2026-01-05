@@ -592,20 +592,29 @@
               <div class="grid gap-4 md:grid-cols-2">
                 <div>
                   <label class="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-500">Start Date *</label>
-                  <input
-                    type="date"
-                    id="start-date"
-                    class="block w-full appearance-none rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-900 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
-                    onchange="calculateNextBillingFromDuration()"
-                  />
+                  <button
+                    type="button"
+                    onclick="openCalendar('start-date')"
+                    id="start-date-button"
+                    class="flex w-full items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-400 transition-all hover:border-slate-300 hover:bg-slate-100 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+                  >
+                    <span class="iconify h-4 w-4" data-icon="ph:calendar-bold"></span>
+                    <span id="start-date-display">Select date</span>
+                  </button>
+                  <input type="hidden" id="start-date" onchange="calculateNextBillingFromDuration()" />
                 </div>
                 <div>
                   <label class="mb-2 block text-xs font-bold uppercase tracking-wider text-slate-500">Next Billing Date *</label>
-                  <input
-                    type="date"
-                    id="next-billing-date"
-                    class="block w-full appearance-none rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-900 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
-                  />
+                  <button
+                    type="button"
+                    onclick="openCalendar('next-billing-date')"
+                    id="next-billing-date-button"
+                    class="flex w-full items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-400 transition-all hover:border-slate-300 hover:bg-slate-100 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-100"
+                  >
+                    <span class="iconify h-4 w-4" data-icon="ph:calendar-bold"></span>
+                    <span id="next-billing-date-display">Select date</span>
+                  </button>
+                  <input type="hidden" id="next-billing-date" />
                 </div>
               </div>
 
@@ -784,6 +793,30 @@
     </div>
 
     <div
+      id="calendar-backdrop"
+      class="fixed inset-0 z-50 hidden bg-slate-900/30 opacity-0 backdrop-blur-sm transition-opacity duration-300"
+      aria-hidden="true"
+    ></div>
+    <div
+      id="calendar-panel"
+      class="pointer-events-none fixed inset-0 z-50 flex hidden items-end justify-center sm:items-center sm:p-4"
+    >
+      <div
+        class="pointer-events-auto flex max-h-[90vh] w-full translate-y-full transform flex-col overflow-hidden rounded-t-3xl bg-white opacity-0 shadow-2xl transition-all duration-300 sm:max-w-md sm:translate-y-10 sm:scale-95 sm:rounded-3xl"
+      >
+        <div class="mt-4 flex justify-center sm:hidden">
+          <div class="h-1.5 w-24 rounded-full bg-slate-200"></div>
+        </div>
+        <div class="border-b border-slate-100 p-4">
+          <h2 id="calendar-title" class="text-lg font-semibold text-slate-900"></h2>
+        </div>
+        <div class="flex justify-center p-4">
+          <div id="calendar-content" class="w-full max-w-sm"></div>
+        </div>
+      </div>
+    </div>
+
+    <div
       id="presets-backdrop"
       class="fixed inset-0 z-50 hidden bg-slate-900/30 opacity-0 backdrop-blur-sm transition-opacity duration-300"
       aria-hidden="true"
@@ -952,6 +985,7 @@
     <script src="/js/beeswarm.js"></script>
     <script src="/js/circlepack.js"></script>
     <script src="/js/modals.js"></script>
+    <script src="/js/calendar.js"></script>
     <script src="/js/bank-import.js"></script>
   </body>
 </html>
