@@ -42,6 +42,9 @@ const presets = [
   { name: "Canva Pro", domain: "canva.com", price: 15, cycle: "Monthly", color: "cyan", category: "Productivity" },
   { name: "Figma", domain: "figma.com", price: 15, cycle: "Monthly", color: "purple", category: "Productivity" },
   { name: "Adobe Creative Cloud", domain: "adobe.com", price: 59.99, cycle: "Monthly", color: "rose", category: "Productivity" }, // ouch
+  { name: "LINE", domain: "line.me", price: 0, cycle: "Monthly", color: "green", category: "Productivity", popular: true },
+  { name: "FlowAccount Pro", domain: "flowaccount.com", price: 7, cycle: "Monthly", color: "blue", category: "Productivity", popular: true },
+  { name: "PEAK Accounting", domain: "peakaccount.com", price: 14, cycle: "Monthly", color: "slate", category: "Productivity", popular: true },
 
   // cloud storage
   { name: "iCloud+", domain: "icloud.com", price: 2.99, cycle: "Monthly", color: "blue", category: "Cloud" },
@@ -66,7 +69,14 @@ const presets = [
   // learning platforms
   { name: "Duolingo", domain: "duolingo.com", price: 12.99, cycle: "Monthly", color: "green", category: "Learning" },
   { name: "Skillshare", domain: "skillshare.com", price: 13.99, cycle: "Monthly", color: "teal", category: "Learning" },
-  { name: "Coursera Plus", domain: "coursera.org", price: 59, cycle: "Monthly", color: "blue", category: "Learning" }
+  { name: "Coursera Plus", domain: "coursera.org", price: 59, cycle: "Monthly", color: "blue", category: "Learning" },
+
+  // marketing
+  { name: "LINE Official Account", domain: "lineforbusiness.com", price: 33, cycle: "Monthly", color: "teal", category: "Marketing", popular: true },
+
+  // shopping / e-commerce
+  { name: "Lazada Seller", domain: "lazada.co.th", price: 0, cycle: "Monthly", color: "orange", category: "Shopping", popular: true },
+  { name: "Shopee Seller", domain: "shopee.co.th", price: 0, cycle: "Monthly", color: "rose", category: "Shopping", popular: true }
 ];
 
 function getCategories() {
