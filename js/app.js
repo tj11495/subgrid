@@ -654,6 +654,37 @@ function toggleRecurring() {
   }
 }
 
+function setDuration(value, unit) {
+  document.getElementById("custom-duration-value").value = value;
+  document.getElementById("custom-duration-unit").value = unit;
+  calculateNextBillingFromDuration();
+}
+
+function calculateNextBillingFromDuration() {
+  const startDateInput = document.getElementById("start-date");
+  const durationValue = document.getElementById("custom-duration-value").value;
+  const durationUnit = document.getElementById("custom-duration-unit").value;
+  const nextBillingInput = document.getElementById("next-billing-date");
+
+  if (!startDateInput.value || !durationValue) {
+    return;
+  }
+
+  const startDate = new Date(startDateInput.value);
+  const duration = parseInt(durationValue);
+  let nextBillingDate = new Date(startDate);
+
+  if (durationUnit === "days") {
+    nextBillingDate.setDate(nextBillingDate.getDate() + duration);
+  } else if (durationUnit === "weeks") {
+    nextBillingDate.setDate(nextBillingDate.getDate() + (duration * 7));
+  } else if (durationUnit === "months") {
+    nextBillingDate.setMonth(nextBillingDate.getMonth() + duration);
+  }
+
+  nextBillingInput.value = nextBillingDate.toISOString().split("T")[0];
+}
+
 function handleFormSubmit(evt) {
   evt.preventDefault();
 

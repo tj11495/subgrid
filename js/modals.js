@@ -68,6 +68,8 @@ function resetScheduleFields() {
   document.getElementById("subscription-status").value = "Active";
   document.getElementById("start-date").value = "";
   document.getElementById("next-billing-date").value = "";
+  document.getElementById("custom-duration-value").value = "";
+  document.getElementById("custom-duration-unit").value = "days";
 }
 
 function closeModal() {
