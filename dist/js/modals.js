@@ -49,7 +49,7 @@ function closeModal() {
 }
 
 function openModalWithPreset(presetIdx) {
-  const preset = presets[presetIdx];
+  const preset = window.presets[presetIdx];
   if (!preset) return;
 
   document.getElementById("sub-form").reset();
@@ -173,7 +173,7 @@ function selectCategory(cat) {
 
 function filterPresets(searchQuery) {
   const q = searchQuery.toLowerCase().trim();
-  let results = presets;
+  let results = window.presets;
 
   if (selectedCategory) {
     results = results.filter(function(p) {
@@ -193,7 +193,7 @@ function filterPresets(searchQuery) {
 }
 
 function renderPresetsBrowserList(presetsToShow) {
-  if (!presetsToShow) presetsToShow = presets;
+  if (!presetsToShow) presetsToShow = window.presets;
 
   const container = document.getElementById("presets-browser-list");
   if (!container) return;
@@ -225,7 +225,7 @@ function renderPresetsBrowserList(presetsToShow) {
 
     for (let i = 0; i < items.length; i++) {
       const p = items[i];
-      const idx = presets.indexOf(p);
+      const idx = window.presets.indexOf(p);
       const logo = "https://img.logo.dev/" + p.domain + "?token=pk_KuI_oR-IQ1-fqpAfz3FPEw&size=100&retina=true&format=png";
 
       html += '<button onclick="selectPresetFromBrowser(' + idx + ')" ';

@@ -3,7 +3,7 @@
  * prices are US monthly rates as of late 2024
  * these will definitely go out of date but gives users a starting point
  */
-const presets = [
+window.presets = [
 
   // streaming services - everyone has like 5 of these now
   { name: "Netflix", domain: "netflix.com", price: 17.99, cycle: "Monthly", color: "rose", category: "Streaming", popular: true },
@@ -81,11 +81,13 @@ const presets = [
 
 function getCategories() {
   const cats = [];
-  for (let i = 0; i < presets.length; i++) {
-    const cat = presets[i].category;
+  for (let i = 0; i < window.presets.length; i++) {
+    const cat = window.presets[i].category;
     if (cats.indexOf(cat) === -1) {
       cats.push(cat);
     }
   }
   return cats;
 }
+
+window.getCategories = getCategories;
