@@ -375,7 +375,7 @@ function renderPresets() {
   if (!grid) return;
 
   // full list is overwhelming, just show common ones here
-  const popular = presets.filter(p => p.popular);
+  const popular = window.presets.filter(p => p.popular);
 
   let html = "";
 
@@ -390,7 +390,7 @@ function renderPresets() {
 
   for (let i = 0; i < popular.length; i++) {
     const preset = popular[i];
-    const presetIndex = presets.indexOf(preset);
+    const presetIndex = window.presets.indexOf(preset);
     const logo = "https://img.logo.dev/" + preset.domain + "?token=pk_KuI_oR-IQ1-fqpAfz3FPEw&size=100&retina=true&format=png";
 
     html += '<button onclick="openModalWithPreset(' + presetIndex + ')" ';
