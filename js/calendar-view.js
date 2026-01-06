@@ -44,7 +44,7 @@ function renderCalendarView() {
     }
   });
 
-  let html = '<div class="divide-y divide-slate-200" style="will-change: transform;">';
+  let html = '';
   let dayCount = 1;
   let nextMonthDay = 1;
   let totalWeeks = Math.ceil((firstDayOfWeek + lastDate) / 7);
@@ -56,11 +56,13 @@ function renderCalendarView() {
 
     for (let day = 0; day < 7; day++) {
       const cellIndex = week * 7 + day;
+      const isFirstColumn = day === 0;
+      const borderClass = isFirstColumn ? 'border-t' : 'border-l border-t';
 
       if (cellIndex < firstDayOfWeek) {
         const prevDay = prevLastDate - firstDayOfWeek + cellIndex + 1;
         html += `
-          <div class="min-h-28 border-l border-t p-2 transition-colors" style="background-color: hsl(var(--muted) / 0.4); color: hsl(var(--muted-foreground));">
+          <div class="min-h-28 ${borderClass} p-2 transition-colors" style="background-color: hsl(var(--muted) / 0.4); color: hsl(var(--muted-foreground));">
             <div class="mb-2 flex items-center justify-between">
               <span class="text-xs font-medium">${prevDay}</span>
             </div>
@@ -106,7 +108,7 @@ function renderCalendarView() {
         }
 
         const cellContent = `
-          <div class="min-h-28 border-l border-t p-2 transition-colors"${bgStyle}>
+          <div class="min-h-28 ${borderClass} p-2 transition-colors"${bgStyle}>
             <div class="mb-2 flex items-center justify-between">
               <span class="text-xs font-medium">${dayCount}</span>${todayIndicator}
             </div>
@@ -123,7 +125,7 @@ function renderCalendarView() {
         dayCount++;
       } else {
         html += `
-          <div class="min-h-28 border-l border-t p-2 transition-colors" style="background-color: hsl(var(--muted) / 0.4); color: hsl(var(--muted-foreground));">
+          <div class="min-h-28 ${borderClass} p-2 transition-colors" style="background-color: hsl(var(--muted) / 0.4); color: hsl(var(--muted-foreground));">
             <div class="mb-2 flex items-center justify-between">
               <span class="text-xs font-medium">${nextMonthDay}</span>
             </div>
@@ -137,12 +139,9 @@ function renderCalendarView() {
     html += '</div>';
   }
 
-  html += '</div>';
-
   const gridElement = document.getElementById('calendar-grid');
   console.log('Calendar grid element:', gridElement);
   console.log('HTML length:', html.length);
-  console.log('Generated HTML:', html.substring(0, 500));
 
   if (gridElement) {
     gridElement.innerHTML = html;
