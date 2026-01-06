@@ -3,12 +3,18 @@ let currentViewDate = new Date();
 const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 function renderCalendarView() {
+  console.log('renderCalendarView called');
   const subs = getSubscriptions();
   const year = currentViewDate.getFullYear();
   const month = currentViewDate.getMonth();
 
-  document.getElementById('calendar-month-title').innerText = `${monthNames[month]} ${year}`;
-  document.getElementById('calendar-sidebar-month').innerText = `${monthNames[month]} ${year}`;
+  console.log('Year:', year, 'Month:', month);
+
+  const titleElement = document.getElementById('calendar-month-title');
+  const sidebarElement = document.getElementById('calendar-sidebar-month');
+
+  if (titleElement) titleElement.innerText = `${monthNames[month]} ${year}`;
+  if (sidebarElement) sidebarElement.innerText = `${monthNames[month]} ${year}`;
 
   const firstDay = new Date(year, month, 1);
   const lastDay = new Date(year, month + 1, 0);
@@ -17,6 +23,8 @@ function renderCalendarView() {
   const firstDayOfWeek = firstDay.getDay();
   const lastDate = lastDay.getDate();
   const prevLastDate = prevLastDay.getDate();
+
+  console.log('First day of week:', firstDayOfWeek, 'Last date:', lastDate);
 
   const today = new Date();
   const isCurrentMonth = today.getFullYear() === year && today.getMonth() === month;
@@ -50,7 +58,7 @@ function renderCalendarView() {
       if (cellIndex < firstDayOfWeek) {
         const prevDay = prevLastDate - firstDayOfWeek + cellIndex + 1;
         html += `
-          <div class="min-h-[120px] border-r border-b border-slate-200 p-3 bg-slate-50/50">
+          <div class="h-32 border-r border-b border-slate-200 p-3 bg-slate-50/50">
             <div class="text-sm font-semibold text-slate-300">${prevDay}</div>
           </div>
         `;
@@ -113,7 +121,7 @@ function renderCalendarView() {
         }
 
         html += `
-          <div class="min-h-[120px] border-r border-b border-slate-200 p-3 ${bgClass} ${cursorClass} transition-all" ${clickHandler}>
+          <div class="h-32 border-r border-b border-slate-200 p-3 ${bgClass} ${cursorClass} transition-all" ${clickHandler}>
             <div class="flex items-center">
               <span class="text-sm font-bold text-slate-900">${dayCount}</span>
               ${dayBadge}
@@ -125,7 +133,7 @@ function renderCalendarView() {
         dayCount++;
       } else {
         html += `
-          <div class="min-h-[120px] border-r border-b border-slate-200 p-3 bg-slate-50/50">
+          <div class="h-32 border-r border-b border-slate-200 p-3 bg-slate-50/50">
             <div class="text-sm font-semibold text-slate-300">${nextMonthDay}</div>
           </div>
         `;
@@ -136,7 +144,16 @@ function renderCalendarView() {
     html += '</div>';
   }
 
-  document.getElementById('calendar-grid').innerHTML = html;
+  const gridElement = document.getElementById('calendar-grid');
+  console.log('Calendar grid element:', gridElement);
+  console.log('HTML length:', html.length);
+
+  if (gridElement) {
+    gridElement.innerHTML = html;
+    console.log('Calendar grid updated');
+  } else {
+    console.error('calendar-grid element not found!');
+  }
 
   updateCalendarStats(subsWithSchedule, year, month);
 }

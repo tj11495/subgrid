@@ -216,8 +216,10 @@ function goToStep(stepNum) {
   } else if (stepNum === 3) {
     progressBar.className = barClasses + " w-3/4";
     currentViewDate = new Date();
-    renderCalendarView();
-    updateCalendarTotals();
+    setTimeout(() => {
+      renderCalendarView();
+      updateCalendarTotals();
+    }, 0);
   } else {
     progressBar.className = barClasses + " w-full";
     renderStats();
