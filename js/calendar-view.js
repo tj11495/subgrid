@@ -44,13 +44,15 @@ function renderCalendarView() {
     }
   });
 
-  let html = '';
+  let html = '<div style="display: block; width: 100%;">';
   let dayCount = 1;
   let nextMonthDay = 1;
   let totalWeeks = Math.ceil((firstDayOfWeek + lastDate) / 7);
 
+  console.log('Total weeks:', totalWeeks);
+
   for (let week = 0; week < totalWeeks; week++) {
-    html += '<div class="grid grid-cols-7">';
+    html += '<div class="grid grid-cols-7" style="display: grid; grid-template-columns: repeat(7, 1fr);">';
 
     for (let day = 0; day < 7; day++) {
       const cellIndex = week * 7 + day;
@@ -58,7 +60,7 @@ function renderCalendarView() {
       if (cellIndex < firstDayOfWeek) {
         const prevDay = prevLastDate - firstDayOfWeek + cellIndex + 1;
         html += `
-          <div class="h-32 border-r border-b border-slate-200 p-3 bg-slate-50/50">
+          <div style="min-height: 120px;" class="border-r border-b border-slate-200 p-3 bg-slate-50/50">
             <div class="text-sm font-semibold text-slate-300">${prevDay}</div>
           </div>
         `;
@@ -121,7 +123,7 @@ function renderCalendarView() {
         }
 
         html += `
-          <div class="h-32 border-r border-b border-slate-200 p-3 ${bgClass} ${cursorClass} transition-all" ${clickHandler}>
+          <div style="min-height: 120px;" class="border-r border-b border-slate-200 p-3 ${bgClass} ${cursorClass} transition-all" ${clickHandler}>
             <div class="flex items-center">
               <span class="text-sm font-bold text-slate-900">${dayCount}</span>
               ${dayBadge}
@@ -133,7 +135,7 @@ function renderCalendarView() {
         dayCount++;
       } else {
         html += `
-          <div class="h-32 border-r border-b border-slate-200 p-3 bg-slate-50/50">
+          <div style="min-height: 120px;" class="border-r border-b border-slate-200 p-3 bg-slate-50/50">
             <div class="text-sm font-semibold text-slate-300">${nextMonthDay}</div>
           </div>
         `;
@@ -144,9 +146,12 @@ function renderCalendarView() {
     html += '</div>';
   }
 
+  html += '</div>';
+
   const gridElement = document.getElementById('calendar-grid');
   console.log('Calendar grid element:', gridElement);
   console.log('HTML length:', html.length);
+  console.log('Generated HTML:', html.substring(0, 500));
 
   if (gridElement) {
     gridElement.innerHTML = html;
