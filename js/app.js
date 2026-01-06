@@ -184,6 +184,21 @@ function iconHtml(sub, className) {
 }
 
 function goToStep(stepNum) {
+  // Check if we should skip calendar step (step 3)
+  if (stepNum === 3) {
+    const hasScheduleData = subs.some(sub => sub.schedule && sub.schedule.enabled && sub.schedule.nextBillingDate);
+    if (!hasScheduleData) {
+      // Skip to step 4 if no schedule data
+      if (step === 2) {
+        goToStep(4);
+        return;
+      } else if (step === 4) {
+        goToStep(2);
+        return;
+      }
+    }
+  }
+
   document.querySelectorAll(".step-panel").forEach(panel => panel.classList.remove("active"));
   document.getElementById("step-" + stepNum).classList.add("active");
 
@@ -194,16 +209,21 @@ function goToStep(stepNum) {
   // tried using style.width but the transition didn't look as smooth
   const barClasses = "h-full bg-indigo-600 transition-all duration-500 ease-out rounded-full";
   if (stepNum === 1) {
-    progressBar.className = barClasses + " w-1/3";
+    progressBar.className = barClasses + " w-1/4";
   } else if (stepNum === 2) {
-    progressBar.className = barClasses + " w-2/3";
+    progressBar.className = barClasses + " w-1/2";
     setView(currentView);
+  } else if (stepNum === 3) {
+    progressBar.className = barClasses + " w-3/4";
+    currentViewDate = new Date();
+    renderCalendarView();
+    updateCalendarTotals();
   } else {
     progressBar.className = barClasses + " w-full";
     renderStats();
   }
 
-  indicator.innerText = "Step " + stepNum + " of 3";
+  indicator.innerText = "Step " + stepNum + " of 4";
   step = stepNum;
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
@@ -212,7 +232,7 @@ function setView(view) {
   currentView = view;
 
   // Update button styles
-  const views = ["treemap", "beeswarm", "circlepack", "calendar"];
+  const views = ["treemap", "beeswarm", "circlepack"];
   const activeClass = "bg-slate-900 text-white";
   const inactiveClass = "bg-white text-slate-600";
 
@@ -232,12 +252,10 @@ function setView(view) {
   const treemapContainer = document.getElementById("bento-grid");
   const beeswarmContainer = document.getElementById("beeswarm-container");
   const circlepackContainer = document.getElementById("circlepack-container");
-  const calendarContainer = document.getElementById("calendar-view-container");
 
   treemapContainer.classList.add("hidden");
   beeswarmContainer.classList.add("hidden");
   circlepackContainer.classList.add("hidden");
-  calendarContainer.classList.add("hidden");
 
   if (view === "treemap") {
     treemapContainer.classList.remove("hidden");
@@ -248,9 +266,6 @@ function setView(view) {
   } else if (view === "circlepack") {
     circlepackContainer.classList.remove("hidden");
     renderCirclePack();
-  } else if (view === "calendar") {
-    calendarContainer.classList.remove("hidden");
-    renderCalendarView();
   }
 }
 
@@ -355,6 +370,44 @@ function updateEmailPreview() {
     moreCount.innerText = remaining;
     moreCount.parentElement.style.display = remaining > 0 ? "block" : "none";
   }
+}
+
+function updateCalendarTotals() {
+  let monthlyTotal = 0;
+  for (const sub of subs) {
+    monthlyTotal += toMonthly(sub);
+  }
+
+  const yearlyTotal = monthlyTotal * 12;
+
+  const step3Total = document.getElementById("step-3-total");
+  const step3Yearly = document.getElementById("step-3-yearly");
+
+  if (step3Total) step3Total.innerText = formatCurrency(monthlyTotal);
+  if (step3Yearly) step3Yearly.innerText = formatCurrency(yearlyTotal, 0);
+}
+
+function exportCalendarAsImage() {
+  const container = document.getElementById("calendar-export-container");
+  if (!container) return;
+
+  if (typeof modernScreenshot === "undefined") {
+    alert("Screenshot library not loaded");
+    return;
+  }
+
+  modernScreenshot.domToPng(container, {
+    scale: 2,
+    backgroundColor: "#ffffff"
+  }).then(dataUrl => {
+    const link = document.createElement("a");
+    link.download = "subscription-calendar.png";
+    link.href = dataUrl;
+    link.click();
+  }).catch(err => {
+    console.error("Export failed:", err);
+    alert("Failed to export image");
+  });
 }
 
 function getVexlyImportUrl() {
