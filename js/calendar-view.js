@@ -44,7 +44,7 @@ function renderCalendarView() {
     }
   });
 
-  let html = '<div style="display: block; width: 100%;">';
+  let html = '<div class="divide-y divide-slate-200" style="will-change: transform;">';
   let dayCount = 1;
   let nextMonthDay = 1;
   let totalWeeks = Math.ceil((firstDayOfWeek + lastDate) / 7);
@@ -52,7 +52,7 @@ function renderCalendarView() {
   console.log('Total weeks:', totalWeeks);
 
   for (let week = 0; week < totalWeeks; week++) {
-    html += '<div class="grid grid-cols-7" style="display: grid; grid-template-columns: repeat(7, 1fr);">';
+    html += '<div class="grid grid-cols-7">';
 
     for (let day = 0; day < 7; day++) {
       const cellIndex = week * 7 + day;
@@ -60,8 +60,11 @@ function renderCalendarView() {
       if (cellIndex < firstDayOfWeek) {
         const prevDay = prevLastDate - firstDayOfWeek + cellIndex + 1;
         html += `
-          <div style="min-height: 120px;" class="border-r border-b border-slate-200 p-3 bg-slate-50/50">
-            <div class="text-sm font-semibold text-slate-300">${prevDay}</div>
+          <div class="min-h-28 border-l border-t p-2 transition-colors" style="background-color: hsl(var(--muted) / 0.4); color: hsl(var(--muted-foreground));">
+            <div class="mb-2 flex items-center justify-between">
+              <span class="text-xs font-medium">${prevDay}</span>
+            </div>
+            <div class="mt-2 flex items-center gap-1"></div>
           </div>
         `;
       } else if (dayCount <= lastDate) {
@@ -73,70 +76,58 @@ function renderCalendarView() {
         const currentDayDate = new Date(year, month, dayCount);
         const isUpcoming = currentDayDate > today && currentDayDate <= sevenDaysFromNow;
 
-        let bgClass = 'bg-white';
+        let bgStyle = '';
         if (isToday) {
-          bgClass = 'bg-blue-50/60';
+          bgStyle = ' style="background-color: hsl(var(--primary) / 0.06);"';
         }
 
-        const clickHandler = subsOnDay.length > 0 ? `onclick="showDayDetails(${dayCount}, ${month}, ${year})"` : '';
-        const cursorClass = subsOnDay.length > 0 ? 'cursor-pointer hover:bg-slate-50 hover:shadow-sm' : '';
-
-        let dayBadge = '';
+        let todayIndicator = '';
         if (isToday) {
-          dayBadge = '<span class="ml-1.5 inline-flex items-center rounded-full bg-blue-500 px-2 py-0.5 text-[10px] font-bold text-white">Today</span>';
+          todayIndicator = '<span class="ml-1 inline-block rounded-full" style="width: 0.375rem; height: 0.375rem; background-color: hsl(var(--primary));" aria-label="Today"></span>';
         }
 
-        let subsHtml = '';
+        let subsDotsHtml = '';
         if (subsOnDay.length > 0) {
-          const displaySubs = subsOnDay.slice(0, 2);
-          subsHtml = '<div class="mt-2 space-y-1.5">';
-          displaySubs.forEach(sub => {
-            let bgColor, textColor, borderColor;
+          subsDotsHtml = '<div class="mt-2 flex items-center gap-1">';
+          subsOnDay.forEach(sub => {
+            let chipColor = 'var(--chip-billing)';
 
             if (isUpcoming) {
-              bgColor = 'bg-amber-50';
-              textColor = 'text-amber-900';
-              borderColor = 'border-amber-200';
+              chipColor = 'var(--chip-upcoming)';
             } else if (sub.schedule.status === 'Trial') {
-              bgColor = 'bg-red-50';
-              textColor = 'text-red-900';
-              borderColor = 'border-red-200';
+              chipColor = 'var(--chip-trial)';
             } else if (sub.schedule.status === 'Paused') {
-              bgColor = 'bg-slate-50';
-              textColor = 'text-slate-700';
-              borderColor = 'border-slate-200';
-            } else {
-              bgColor = 'bg-emerald-50';
-              textColor = 'text-emerald-900';
-              borderColor = 'border-emerald-200';
+              chipColor = 'var(--chip-paused)';
             }
 
-            const subName = sub.name.length > 12 ? sub.name.substring(0, 12) + '...' : sub.name;
-            subsHtml += `<div class="flex items-center gap-1.5 rounded-lg border ${borderColor} ${bgColor} px-2 py-1 text-[10px] font-semibold ${textColor}">
-              <span class="truncate">${subName}</span>
-            </div>`;
+            subsDotsHtml += `<div title="${sub.name}" class="rounded-full" style="width: 0.5rem; height: 0.5rem; background-color: ${chipColor};"></div>`;
           });
-          if (subsOnDay.length > 2) {
-            subsHtml += `<div class="text-[10px] font-medium text-slate-500 pl-2">+${subsOnDay.length - 2} more</div>`;
-          }
-          subsHtml += '</div>';
+          subsDotsHtml += '</div>';
         }
 
-        html += `
-          <div style="min-height: 120px;" class="border-r border-b border-slate-200 p-3 ${bgClass} ${cursorClass} transition-all" ${clickHandler}>
-            <div class="flex items-center">
-              <span class="text-sm font-bold text-slate-900">${dayCount}</span>
-              ${dayBadge}
+        const cellContent = `
+          <div class="min-h-28 border-l border-t p-2 transition-colors"${bgStyle}>
+            <div class="mb-2 flex items-center justify-between">
+              <span class="text-xs font-medium">${dayCount}</span>${todayIndicator}
             </div>
-            ${subsHtml}
+            ${subsDotsHtml}
           </div>
         `;
+
+        if (subsOnDay.length > 0) {
+          html += `<button class="block w-full text-left" onclick="showDayDetails(${dayCount}, ${month}, ${year})">${cellContent}</button>`;
+        } else {
+          html += cellContent;
+        }
 
         dayCount++;
       } else {
         html += `
-          <div style="min-height: 120px;" class="border-r border-b border-slate-200 p-3 bg-slate-50/50">
-            <div class="text-sm font-semibold text-slate-300">${nextMonthDay}</div>
+          <div class="min-h-28 border-l border-t p-2 transition-colors" style="background-color: hsl(var(--muted) / 0.4); color: hsl(var(--muted-foreground));">
+            <div class="mb-2 flex items-center justify-between">
+              <span class="text-xs font-medium">${nextMonthDay}</span>
+            </div>
+            <div class="mt-2 flex items-center gap-1"></div>
           </div>
         `;
         nextMonthDay++;
