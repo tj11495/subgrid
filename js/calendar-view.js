@@ -1,7 +1,5 @@
 let currentViewDate = new Date();
 
-const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
 function renderCalendarView() {
   console.log('renderCalendarView called');
   const subs = getSubscriptions();
