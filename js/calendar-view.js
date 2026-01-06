@@ -2,7 +2,6 @@ let currentViewDate = new Date();
 
 function renderCalendarView() {
   console.log('renderCalendarView called');
-  const subs = getSubscriptions();
   const year = currentViewDate.getFullYear();
   const month = currentViewDate.getMonth();
 
@@ -196,7 +195,6 @@ function goToToday() {
 }
 
 function showDayDetails(day, month, year) {
-  const subs = getSubscriptions();
   const subsOnDay = subs.filter(sub => {
     if (!sub.schedule || !sub.schedule.enabled || !sub.schedule.nextBillingDate) return false;
     const billingDate = new Date(sub.schedule.nextBillingDate);
