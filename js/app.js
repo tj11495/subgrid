@@ -212,7 +212,7 @@ function setView(view) {
   currentView = view;
 
   // Update button styles
-  const views = ["treemap", "beeswarm", "circlepack"];
+  const views = ["treemap", "beeswarm", "circlepack", "calendar"];
   const activeClass = "bg-slate-900 text-white";
   const inactiveClass = "bg-white text-slate-600";
 
@@ -232,10 +232,12 @@ function setView(view) {
   const treemapContainer = document.getElementById("bento-grid");
   const beeswarmContainer = document.getElementById("beeswarm-container");
   const circlepackContainer = document.getElementById("circlepack-container");
+  const calendarContainer = document.getElementById("calendar-view-container");
 
   treemapContainer.classList.add("hidden");
   beeswarmContainer.classList.add("hidden");
   circlepackContainer.classList.add("hidden");
+  calendarContainer.classList.add("hidden");
 
   if (view === "treemap") {
     treemapContainer.classList.remove("hidden");
@@ -246,6 +248,9 @@ function setView(view) {
   } else if (view === "circlepack") {
     circlepackContainer.classList.remove("hidden");
     renderCirclePack();
+  } else if (view === "calendar") {
+    calendarContainer.classList.remove("hidden");
+    renderCalendarView();
   }
 }
 
