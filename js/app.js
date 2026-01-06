@@ -496,6 +496,13 @@ function editSub(subId) {
       recurringToggleSpan.classList.remove("translate-x-5");
       recurringToggleSpan.classList.add("translate-x-0");
     }
+
+    if (sub.schedule.customDurationValue) {
+      document.getElementById("custom-duration-value").value = sub.schedule.customDurationValue;
+    }
+    if (sub.schedule.customDurationUnit) {
+      document.getElementById("custom-duration-unit").value = sub.schedule.customDurationUnit;
+    }
   } else {
     resetScheduleFields();
   }
@@ -733,7 +740,9 @@ function handleFormSubmit(evt) {
       status: document.getElementById("subscription-status").value,
       startDate: document.getElementById("start-date").value,
       nextBillingDate: document.getElementById("next-billing-date").value,
-      recurring: document.getElementById("recurring-toggle").getAttribute("aria-checked") === "true"
+      recurring: document.getElementById("recurring-toggle").getAttribute("aria-checked") === "true",
+      customDurationValue: document.getElementById("custom-duration-value").value,
+      customDurationUnit: document.getElementById("custom-duration-unit").value
     };
   }
 
