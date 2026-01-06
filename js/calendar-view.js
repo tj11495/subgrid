@@ -42,7 +42,7 @@ function renderCalendarView() {
   let totalWeeks = Math.ceil((firstDayOfWeek + lastDate) / 7);
 
   for (let week = 0; week < totalWeeks; week++) {
-    html += '<div class="grid grid-cols-7 divide-x divide-slate-200">';
+    html += '<div class="grid grid-cols-7">';
 
     for (let day = 0; day < 7; day++) {
       const cellIndex = week * 7 + day;
@@ -50,7 +50,7 @@ function renderCalendarView() {
       if (cellIndex < firstDayOfWeek) {
         const prevDay = prevLastDate - firstDayOfWeek + cellIndex + 1;
         html += `
-          <div class="min-h-32 border-b border-slate-200 p-3 bg-slate-50/50">
+          <div class="min-h-[120px] border-r border-b border-slate-200 p-3 bg-slate-50/50">
             <div class="text-sm font-semibold text-slate-300">${prevDay}</div>
           </div>
         `;
@@ -63,9 +63,7 @@ function renderCalendarView() {
         const currentDayDate = new Date(year, month, dayCount);
         const isUpcoming = currentDayDate > today && currentDayDate <= sevenDaysFromNow;
 
-        let cellClass = 'min-h-32 border-b border-slate-200 p-3 transition-all';
         let bgClass = 'bg-white';
-
         if (isToday) {
           bgClass = 'bg-blue-50/60';
         }
@@ -115,8 +113,8 @@ function renderCalendarView() {
         }
 
         html += `
-          <div class="${cellClass} ${bgClass} ${cursorClass}" ${clickHandler}>
-            <div class="flex items-center justify-between">
+          <div class="min-h-[120px] border-r border-b border-slate-200 p-3 ${bgClass} ${cursorClass} transition-all" ${clickHandler}>
+            <div class="flex items-center">
               <span class="text-sm font-bold text-slate-900">${dayCount}</span>
               ${dayBadge}
             </div>
@@ -127,7 +125,7 @@ function renderCalendarView() {
         dayCount++;
       } else {
         html += `
-          <div class="min-h-32 border-b border-slate-200 p-3 bg-slate-50/50">
+          <div class="min-h-[120px] border-r border-b border-slate-200 p-3 bg-slate-50/50">
             <div class="text-sm font-semibold text-slate-300">${nextMonthDay}</div>
           </div>
         `;
