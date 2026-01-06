@@ -301,133 +301,131 @@
       </div>
 
       <div id="step-3" class="step-panel">
-        <div
-          id="calendar-export-container"
-          class="relative overflow-hidden rounded-2xl border border-slate-100 bg-white p-3 shadow-card sm:rounded-[2.5rem] sm:p-5"
-          style="font-family: 'Plus Jakarta Sans', system-ui, sans-serif"
-        >
-          <div class="mb-4 sm:mb-6">
-            <div class="grid gap-4 lg:grid-cols-[1fr_320px]">
-              <div class="rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden">
-                <div class="border-b border-slate-100 bg-slate-50/80 px-5 py-4">
-                  <div class="flex items-center justify-between">
-                    <h3 id="calendar-month-title" class="text-lg font-semibold text-slate-900">January 2026</h3>
-                    <div class="flex items-center gap-2">
-                      <button onclick="previousMonth()" class="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white p-2 text-slate-600 transition-all hover:bg-slate-50 hover:text-slate-900 active:scale-95 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                        <span class="iconify h-4 w-4" data-icon="ph:caret-left-bold"></span>
-                      </button>
-                      <button onclick="goToToday()" class="rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-700 transition-all hover:bg-slate-50 active:scale-95 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                        Today
-                      </button>
-                      <button onclick="nextMonth()" class="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white p-2 text-slate-600 transition-all hover:bg-slate-50 hover:text-slate-900 active:scale-95 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                        <span class="iconify h-4 w-4" data-icon="ph:caret-right-bold"></span>
-                      </button>
-                    </div>
-                  </div>
+        <div class="mb-6 space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="text-2xl font-bold text-slate-900 sm:text-3xl">Billing Calendar</h2>
+              <p class="mt-1 text-sm text-slate-500">Track upcoming subscription charges</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="previousMonth()" class="inline-flex items-center justify-center rounded-xl bg-white border border-slate-200 p-2.5 text-slate-600 shadow-sm transition-all hover:bg-slate-50 hover:border-slate-300 active:scale-95">
+                <span class="iconify h-5 w-5" data-icon="ph:caret-left-bold"></span>
+              </button>
+              <button onclick="goToToday()" class="rounded-xl bg-white border border-slate-200 px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition-all hover:bg-slate-50 hover:border-slate-300 active:scale-95">
+                Today
+              </button>
+              <button onclick="nextMonth()" class="inline-flex items-center justify-center rounded-xl bg-white border border-slate-200 p-2.5 text-slate-600 shadow-sm transition-all hover:bg-slate-50 hover:border-slate-300 active:scale-95">
+                <span class="iconify h-5 w-5" data-icon="ph:caret-right-bold"></span>
+              </button>
+            </div>
+          </div>
+
+          <div class="grid gap-4 sm:grid-cols-3">
+            <div class="rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-50 p-4 shadow-sm border border-emerald-100">
+              <div class="flex items-center gap-3">
+                <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-500 shadow-sm">
+                  <span class="iconify h-6 w-6 text-white" data-icon="ph:currency-dollar-bold"></span>
                 </div>
-                <div class="p-0">
-                  <div class="overflow-hidden border-t border-slate-200">
-                    <div class="grid grid-cols-7 border-b bg-slate-50/80 text-xs font-medium text-slate-500">
-                      <div class="border-r p-2 last:border-r-0">Sun</div>
-                      <div class="border-r p-2 last:border-r-0">Mon</div>
-                      <div class="border-r p-2 last:border-r-0">Tue</div>
-                      <div class="border-r p-2 last:border-r-0">Wed</div>
-                      <div class="border-r p-2 last:border-r-0">Thu</div>
-                      <div class="border-r p-2 last:border-r-0">Fri</div>
-                      <div class="border-r p-2 last:border-r-0">Sat</div>
-                    </div>
-                    <div id="calendar-grid" class="divide-y divide-slate-200"></div>
-                  </div>
+                <div class="flex-1">
+                  <div class="text-xs font-medium text-emerald-700 uppercase tracking-wide">This Month</div>
+                  <div class="text-2xl font-bold text-emerald-900" id="calendar-total-spending">$0.00</div>
                 </div>
               </div>
+            </div>
 
-              <div class="space-y-4">
-                <div class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
-                  <div class="border-b border-slate-100 px-5 py-4">
-                    <h3 class="text-base font-semibold text-slate-900">Month Overview</h3>
-                    <p id="calendar-sidebar-month" class="text-sm text-slate-500">January 2026</p>
-                  </div>
-                  <div class="p-5 space-y-4">
-                    <div class="space-y-3">
-                      <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-2">
-                          <span class="iconify h-4 w-4 text-slate-400" data-icon="ph:currency-dollar-bold"></span>
-                          <span class="text-sm text-slate-700">Total Spending</span>
-                        </div>
-                        <span id="calendar-total-spending" class="font-semibold text-slate-900">$0.00</span>
-                      </div>
-                      <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-2">
-                          <span class="iconify h-4 w-4 text-slate-400" data-icon="ph:calendar-bold"></span>
-                          <span class="text-sm text-slate-700">Billing Events</span>
-                        </div>
-                        <div class="inline-flex items-center border border-slate-200 rounded-full px-2.5 py-0.5 text-xs font-semibold text-slate-900">
-                          <span id="calendar-billing-events">0</span>
-                        </div>
-                      </div>
-                      <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-2">
-                          <span class="iconify h-4 w-4 text-emerald-500" data-icon="ph:trend-up-bold"></span>
-                          <span class="text-sm text-slate-700">Upcoming (7 days)</span>
-                        </div>
-                        <div class="inline-flex items-center border border-slate-200 bg-slate-50 rounded-full px-2.5 py-0.5 text-xs font-semibold text-slate-900">
-                          <span id="calendar-upcoming">0</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+            <div class="rounded-2xl bg-gradient-to-br from-blue-50 to-cyan-50 p-4 shadow-sm border border-blue-100">
+              <div class="flex items-center gap-3">
+                <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-500 shadow-sm">
+                  <span class="iconify h-6 w-6 text-white" data-icon="ph:calendar-check-bold"></span>
                 </div>
+                <div class="flex-1">
+                  <div class="text-xs font-medium text-blue-700 uppercase tracking-wide">Billing Events</div>
+                  <div class="text-2xl font-bold text-blue-900" id="calendar-billing-events">0</div>
+                </div>
+              </div>
+            </div>
 
-                <div class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
-                  <div class="border-b border-slate-100 px-5 py-4">
-                    <h3 class="text-base font-semibold text-slate-900">Legend</h3>
-                  </div>
-                  <div class="p-5 space-y-2">
-                    <div class="flex items-center gap-2">
-                      <div class="h-3 w-3 rounded" style="background-color: #10b981;"></div>
-                      <span class="text-sm text-slate-600">Active Billing</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                      <div class="h-3 w-3 rounded" style="background-color: #f59e0b;"></div>
-                      <span class="text-sm text-slate-600">Upcoming (7 days)</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                      <div class="h-3 w-3 rounded" style="background-color: #ef4444;"></div>
-                      <span class="text-sm text-slate-600">Trial/Expiring</span>
-                    </div>
-                  </div>
+            <div class="rounded-2xl bg-gradient-to-br from-amber-50 to-orange-50 p-4 shadow-sm border border-amber-100">
+              <div class="flex items-center gap-3">
+                <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-amber-500 shadow-sm">
+                  <span class="iconify h-6 w-6 text-white" data-icon="ph:bell-ringing-bold"></span>
+                </div>
+                <div class="flex-1">
+                  <div class="text-xs font-medium text-amber-700 uppercase tracking-wide">Next 7 Days</div>
+                  <div class="text-2xl font-bold text-amber-900" id="calendar-upcoming">0</div>
                 </div>
               </div>
             </div>
           </div>
+        </div>
 
-          <div
-            class="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50 p-3 sm:rounded-2xl sm:p-4"
-          >
-            <div>
-              <div
-                class="text-[10px] font-bold uppercase tracking-widest text-slate-400 whitespace-nowrap sm:text-xs"
-              >
-                Total / Month
+        <div
+          id="calendar-export-container"
+          class="relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg"
+          style="font-family: 'Plus Jakarta Sans', system-ui, sans-serif"
+        >
+          <div class="border-b border-slate-200 bg-gradient-to-br from-slate-50 to-slate-100/50 px-6 py-5">
+            <h3 id="calendar-month-title" class="text-2xl font-bold text-slate-900">January 2026</h3>
+            <p id="calendar-sidebar-month" class="mt-1 text-sm text-slate-600">View all subscription charges for the month</p>
+          </div>
+
+          <div class="p-4 sm:p-6">
+            <div class="overflow-hidden rounded-xl border border-slate-200 bg-white">
+              <div class="grid grid-cols-7 border-b border-slate-200 bg-slate-50">
+                <div class="p-3 text-center text-xs font-bold uppercase tracking-wider text-slate-500">Sun</div>
+                <div class="p-3 text-center text-xs font-bold uppercase tracking-wider text-slate-500">Mon</div>
+                <div class="p-3 text-center text-xs font-bold uppercase tracking-wider text-slate-500">Tue</div>
+                <div class="p-3 text-center text-xs font-bold uppercase tracking-wider text-slate-500">Wed</div>
+                <div class="p-3 text-center text-xs font-bold uppercase tracking-wider text-slate-500">Thu</div>
+                <div class="p-3 text-center text-xs font-bold uppercase tracking-wider text-slate-500">Fri</div>
+                <div class="p-3 text-center text-xs font-bold uppercase tracking-wider text-slate-500">Sat</div>
               </div>
-              <div
-                class="text-xl font-black text-slate-900 whitespace-nowrap sm:text-2xl"
-                id="step-3-total"
-              >
-                $0.00
+              <div id="calendar-grid"></div>
+            </div>
+          </div>
+
+          <div class="border-t border-slate-200 bg-slate-50 px-6 py-4">
+            <div class="flex flex-wrap items-center gap-4 justify-center">
+              <div class="flex items-center gap-2">
+                <div class="h-3 w-3 rounded-full bg-emerald-500 shadow-sm"></div>
+                <span class="text-xs font-medium text-slate-700">Active</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <div class="h-3 w-3 rounded-full bg-amber-500 shadow-sm"></div>
+                <span class="text-xs font-medium text-slate-700">Upcoming</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <div class="h-3 w-3 rounded-full bg-red-500 shadow-sm"></div>
+                <span class="text-xs font-medium text-slate-700">Trial</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <div class="h-3 w-3 rounded-full bg-slate-300 shadow-sm"></div>
+                <span class="text-xs font-medium text-slate-700">Paused</span>
               </div>
             </div>
-            <div class="text-right">
-              <div
-                class="text-[10px] font-bold uppercase tracking-widest text-slate-400 whitespace-nowrap sm:text-xs"
-              >
-                Yearly Projection
+          </div>
+        </div>
+
+        <div class="mt-6 grid gap-4 sm:grid-cols-2">
+          <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+            <div class="flex items-center justify-between">
+              <div>
+                <div class="text-xs font-bold uppercase tracking-widest text-slate-400">Monthly Total</div>
+                <div class="mt-1 text-3xl font-black text-slate-900" id="step-3-total">$0.00</div>
               </div>
-              <div
-                class="text-sm font-bold text-indigo-600 whitespace-nowrap sm:text-base"
-                id="step-3-yearly"
-              >
-                $0.00
+              <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100">
+                <span class="iconify h-7 w-7 text-slate-600" data-icon="ph:wallet-bold"></span>
+              </div>
+            </div>
+          </div>
+          <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+            <div class="flex items-center justify-between">
+              <div>
+                <div class="text-xs font-bold uppercase tracking-widest text-slate-400">Yearly Total</div>
+                <div class="mt-1 text-3xl font-black text-blue-600" id="step-3-yearly">$0.00</div>
+              </div>
+              <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50">
+                <span class="iconify h-7 w-7 text-blue-600" data-icon="ph:trend-up-bold"></span>
               </div>
             </div>
           </div>
