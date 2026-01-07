@@ -59,11 +59,10 @@ function renderCalendarView() {
       if (cellIndex < firstDayOfWeek) {
         const prevDay = prevLastDate - firstDayOfWeek + cellIndex + 1;
         html += `
-          <div class="min-h-28 ${borderClass} p-2 transition-colors" style="background-color: hsl(var(--muted) / 0.4); color: hsl(var(--muted-foreground));">
-            <div class="mb-2 flex items-center justify-between">
+          <div class="min-h-32 ${borderClass} p-1.5 transition-colors" style="background-color: hsl(var(--muted) / 0.4); color: hsl(var(--muted-foreground));">
+            <div class="mb-1 flex items-center justify-between">
               <span class="text-xs font-medium">${prevDay}</span>
             </div>
-            <div class="mt-2 flex items-center gap-1"></div>
           </div>
         `;
       } else if (dayCount <= lastDate) {
@@ -82,34 +81,33 @@ function renderCalendarView() {
 
         let todayIndicator = '';
         if (isToday) {
-          todayIndicator = '<span class="ml-1 inline-block rounded-full" style="width: 0.375rem; height: 0.375rem; background-color: hsl(var(--primary));" aria-label="Today"></span>';
+          todayIndicator = '<span class="inline-flex items-center rounded-full bg-amber-500 px-2 py-0.5 text-[10px] font-bold text-white">Today</span>';
         }
 
-        let subsDotsHtml = '';
+        let subsBadgesHtml = '';
         if (subsOnDay.length > 0) {
-          subsDotsHtml = '<div class="mt-2 flex items-center gap-1">';
+          subsBadgesHtml = '<div class="mt-1 space-y-1">';
           subsOnDay.forEach(sub => {
-            let chipColor = 'var(--chip-billing)';
+            const bgColor = sub.color || '#6366f1';
+            const logo = iconHtml(sub, 'h-4 w-4');
 
-            if (isUpcoming) {
-              chipColor = 'var(--chip-upcoming)';
-            } else if (sub.schedule.status === 'Trial') {
-              chipColor = 'var(--chip-trial)';
-            } else if (sub.schedule.status === 'Paused') {
-              chipColor = 'var(--chip-paused)';
-            }
-
-            subsDotsHtml += `<div title="${sub.name}" class="rounded-full" style="width: 0.5rem; height: 0.5rem; background-color: ${chipColor};"></div>`;
+            subsBadgesHtml += `
+              <div class="flex items-center gap-1.5 rounded-md px-2 py-1 text-white text-xs font-medium shadow-sm" style="background-color: ${bgColor};">
+                ${logo}
+                <span class="truncate flex-1">${sub.name}</span>
+              </div>
+            `;
           });
-          subsDotsHtml += '</div>';
+          subsBadgesHtml += '</div>';
         }
 
         const cellContent = `
-          <div class="min-h-28 ${borderClass} p-2 transition-colors"${bgStyle}>
-            <div class="mb-2 flex items-center justify-between">
-              <span class="text-xs font-medium">${dayCount}</span>${todayIndicator}
+          <div class="min-h-32 ${borderClass} p-1.5 transition-colors"${bgStyle}>
+            <div class="mb-1 flex items-center justify-between gap-1">
+              <span class="text-xs font-medium">${dayCount}</span>
+              ${todayIndicator}
             </div>
-            ${subsDotsHtml}
+            ${subsBadgesHtml}
           </div>
         `;
 
@@ -122,11 +120,10 @@ function renderCalendarView() {
         dayCount++;
       } else {
         html += `
-          <div class="min-h-28 ${borderClass} p-2 transition-colors" style="background-color: hsl(var(--muted) / 0.4); color: hsl(var(--muted-foreground));">
-            <div class="mb-2 flex items-center justify-between">
+          <div class="min-h-32 ${borderClass} p-1.5 transition-colors" style="background-color: hsl(var(--muted) / 0.4); color: hsl(var(--muted-foreground));">
+            <div class="mb-1 flex items-center justify-between">
               <span class="text-xs font-medium">${nextMonthDay}</span>
             </div>
-            <div class="mt-2 flex items-center gap-1"></div>
           </div>
         `;
         nextMonthDay++;
