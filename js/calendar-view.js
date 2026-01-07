@@ -165,7 +165,7 @@ function updateCalendarStats(subsWithSchedule, year, month) {
     if (billingDate.getFullYear() === year && billingDate.getMonth() === month) {
       billingEventsCount++;
 
-      const monthlyCost = parseFloat(sub.cost) || 0;
+      const monthlyCost = toMonthly(sub);
       totalSpending += monthlyCost;
 
       if (billingDate > today && billingDate <= sevenDaysFromNow) {
@@ -174,7 +174,7 @@ function updateCalendarStats(subsWithSchedule, year, month) {
     }
   });
 
-  document.getElementById('calendar-total-spending').innerText = `$${totalSpending.toFixed(2)}`;
+  document.getElementById('calendar-total-spending').innerText = formatCurrency(totalSpending);
   document.getElementById('calendar-billing-events').innerText = billingEventsCount;
   document.getElementById('calendar-upcoming').innerText = upcomingCount;
 }
